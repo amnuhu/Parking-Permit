@@ -46,21 +46,7 @@ public class TownCouncil {
 
     public void addPermittedVehicles(Vehicle vehicle) {
         VehicleType vehicleType = vehicle.getVehicleType();
-        switch (vehicleType) {
-            case LORRY : {
-                List<Vehicle> lorry = vehiclesWithPermit.get(VehicleType.LORRY);
-                lorry.add(vehicle);
-            }
-
-            case MOTORBIKE: {
-                List<Vehicle> motorbike = vehiclesWithPermit.get(VehicleType.MOTORBIKE);
-                motorbike.add(vehicle);
-            }
-            case PRIVATE_CAR: {
-                List<Vehicle> privateCar = vehiclesWithPermit.get(VehicleType.PRIVATE_CAR);
-                privateCar.add(vehicle);
-            }
-        }
+        vehiclesWithPermit.get(vehicleType).add(vehicle);
     }
 
     public boolean carNeedsPermit(Vehicle vehicle) {
