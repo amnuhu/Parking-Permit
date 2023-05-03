@@ -1,5 +1,7 @@
 package org.turntabl.town;
 
+import org.turntabl.services.PermitIssuerService;
+import org.turntabl.services.VerificationService;
 import org.turntabl.vehicle.Vehicle;
 import org.turntabl.vehicle.VehicleType;
 
@@ -8,34 +10,34 @@ import java.util.*;
 public class TownCouncil {
     private  int permitNumberCount;
 
+    private final VerificationService verificationService;
+
+    private final PermitIssuerService permitIssuerService;
+
     private Map<VehicleType, Set<Vehicle>> vehiclesWithPermit;
 
-    public TownCouncil() {
+    public TownCouncil(VerificationService verificationService, PermitIssuerService permitIssuerService) {
+        this.verificationService = verificationService;
+        this.permitIssuerService = permitIssuerService;
         setVehiclesTypes();
     }
 
-    public boolean verifyRequester(Owner owner, Vehicle vehicle) {
-        List<Owner> owners = vehicle.getOwners();
-        return owners.contains(owner);
-    }
 
-    public String generatePermit(Owner requester, Vehicle vehicle) {
-        if (verifyRequester(requester, vehicle)){
-            if (!carNeedsPermit(vehicle))
-                return vehicle.getPermitNumber();
+    public String issuePermit(Person requester, Vehicle vehicle) {
+        String permit;
+        if (verificationService.verifyPerson(requester, vehicle)) {
+            if (vehicle.getVehicleType() == VehicleType.LORRY) {
+                permit = generateLorryPermit(requester,vehicle);
+            }
+            else
+                permit = permitIssuerService.issuePermit(vehicle);
 
-            String number = "TC" +(permitNumberCount + 1);
-            this.permitNumberCount++;
-
-            addPermittedVehicles(vehicle);;
-            return number;
+            vehicle.setPermitNumber(permit);
+            addPermittedVehicles(vehicle);
+            return permit;
         }
         return null;
-    }
 
-    public void issuePermit(Owner requester, Vehicle vehicle) {
-        String permit = generatePermit(requester, vehicle);
-        vehicle.setPermitNumber(permit);
     }
 
     public void addPermittedVehicles(Vehicle vehicle) {
@@ -61,4 +63,40 @@ public class TownCouncil {
     public double getCharge(Vehicle vehicle) {
         return vehicle.calculateCharge();
     }
+
+    private String generateLorryPermit(Person requester, Vehicle vehicle) {
+        if (!carNeedsPermit(vehicle))
+            return vehicle.getPermitNumber();
+
+        String number = "TC" +(permitNumberCount + 1);
+        this.permitNumberCount++;
+
+        return number;
+    }
+
 }
+
+
+//    public String generatePermit(Person requester, Vehicle vehicle) {
+//        if (verifyRequester(requester, vehicle)){
+//            if (!carNeedsPermit(vehicle))
+//                return vehicle.getPermitNumber();
+//
+//            String number = "TC" +(permitNumberCount + 1);
+//            this.permitNumberCount++;
+//
+//            addPermittedVehicles(vehicle);;
+//            return number;
+//        }
+//        return null;
+//    }
+
+//    public boolean verifyRequester(Person person, Vehicle vehicle) {
+//        List<Person> people = vehicle.getOwners();
+//        return people.contains(person);
+//    }
+
+//    public void issuePermit(Person requester, Vehicle vehicle) {
+//        String permit = generatePermit(requester, vehicle);
+//        vehicle.setPermitNumber(permit);
+//    }

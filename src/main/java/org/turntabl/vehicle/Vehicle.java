@@ -1,6 +1,6 @@
 package org.turntabl.vehicle;
 
-import org.turntabl.town.Owner;
+import org.turntabl.town.Person;
 
 import java.util.List;
 import java.util.Objects;
@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public abstract class Vehicle {
-     private Set<Owner> owners;
+     private Set<Person> people;
 
      private String numberPlate;
 
@@ -21,8 +21,8 @@ public abstract class Vehicle {
 
 
 
-     public Vehicle(List<Owner> owners, String numberPlate, Double baseCharge, VehicleType vehicleType) {
-          this.owners = owners.stream().collect(Collectors.toSet());
+     public Vehicle(List<Person> people, String numberPlate, Double baseCharge, VehicleType vehicleType) {
+          this.people = people.stream().collect(Collectors.toSet());
           this.numberPlate = numberPlate;
           this.vehicleType = vehicleType;
           this.baseCharge = baseCharge;
@@ -45,8 +45,8 @@ public abstract class Vehicle {
 
      public abstract double calculateCharge();
 
-     public List<Owner> getOwners() {
-          return owners.stream().toList();
+     public List<Person> getOwners() {
+          return people.stream().toList();
      }
      public VehicleType getVehicleType() {
           return vehicleType;
@@ -57,11 +57,11 @@ public abstract class Vehicle {
           if (this == o) return true;
           if (o == null || getClass() != o.getClass()) return false;
           Vehicle vehicle = (Vehicle) o;
-          return owners.equals(vehicle.owners) && numberPlate.equals(vehicle.numberPlate) && vehicleType == vehicle.vehicleType;
+          return people.equals(vehicle.people) && numberPlate.equals(vehicle.numberPlate) && vehicleType == vehicle.vehicleType;
      }
 
      @Override
      public int hashCode() {
-          return Objects.hash(owners, numberPlate, vehicleType);
+          return Objects.hash(people, numberPlate, vehicleType);
      }
 }

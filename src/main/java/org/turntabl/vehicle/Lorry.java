@@ -1,7 +1,7 @@
 package org.turntabl.vehicle;
 
 import org.turntabl.exception.InvalidCapacityException;
-import org.turntabl.town.Owner;
+import org.turntabl.town.Person;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ public class Lorry extends Vehicle{
     private final float capacity;
     private final Double extraCharge;
 
-    public Lorry(List<Owner> owners, String numberPlate, float capacity) throws InvalidCapacityException {
-        super(owners, numberPlate, 30.0, VehicleType.LORRY);
+    public Lorry(List<Person> people, String numberPlate, float capacity) throws InvalidCapacityException {
+        super(people, numberPlate, 30.0, VehicleType.LORRY);
         if(capacity < 1){
             throw new InvalidCapacityException("Lorry capacity must be greater than zero");
         }

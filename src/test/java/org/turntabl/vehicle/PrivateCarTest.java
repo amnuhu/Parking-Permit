@@ -1,9 +1,8 @@
 package org.turntabl.vehicle;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.turntabl.town.Owner;
+import org.turntabl.town.Person;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class PrivateCarTest {
 
 
-    Owner owner = new Owner("Emma12345", "Emma");
-    Owner owner2 = new Owner("Rozz12345", "Rozay");
+    Person person = new Person("Emma12345", "Emma");
+    Person person2 = new Person("Rozz12345", "Rozay");
 
-    List<Owner> owners = Arrays.asList(owner,owner2);
-    Vehicle vehicle1 =  new PrivateCar(owners, "419");
+    List<Person> people = Arrays.asList(person, person2);
+    Vehicle vehicle1 =  new PrivateCar(people, "419");
 
 
     @Test
@@ -28,7 +27,7 @@ class PrivateCarTest {
 
     @Test
     void getOwnersTest() {
-        Assertions.assertThat(vehicle1.getOwners()).contains(owner);
+        Assertions.assertThat(vehicle1.getOwners()).contains(person);
         Assertions.assertThat(vehicle1.getOwners()).hasSize(2);
 
     }

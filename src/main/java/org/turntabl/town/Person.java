@@ -2,7 +2,7 @@ package org.turntabl.town;
 
 import java.util.Objects;
 
-public class Owner {
+public class Person {
 
 
     private boolean registered;
@@ -11,7 +11,7 @@ public class Owner {
 
 
 
-    public Owner(String nationalID, String name) {
+    public Person(String nationalID, String name) {
         this.nationalID = nationalID;
         this.name = name;
     }
@@ -35,8 +35,8 @@ public class Owner {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Owner owner = (Owner) o;
-        return nationalID.equals(owner.nationalID) && name.equals(owner.name);
+        Person person = (Person) o;
+        return nationalID.equals(person.nationalID) && name.equals(person.name);
     }
 
     @Override
