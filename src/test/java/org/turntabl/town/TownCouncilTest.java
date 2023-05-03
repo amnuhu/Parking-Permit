@@ -1,7 +1,9 @@
 package org.turntabl.town;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.turntabl.exception.InvalidCapacityException;
 import org.turntabl.vehicle.*;
 
 import java.util.Arrays;
@@ -21,10 +23,7 @@ class TownCouncilTest {
 
     List<Owner> oneOwner = Arrays.asList(owner3);
     Vehicle vehicle1 =  new PrivateCar(owners, "419");
-    Vehicle vehicle2 =  new Lorry(owners, "419", 2500);
     TownCouncil tc = new TownCouncil();
-
-
 
 
     @Test
@@ -69,19 +68,24 @@ class TownCouncilTest {
 
     }
 
-    @Test
-    public void checkAlreadyHasPermitInGeneratePermit() {
-        Vehicle vehicle =  new PrivateCar(owners, "419");
-        Owner owner = new Owner("Emma12345", "Emma");
-        vehicle.setPermitNumber("Yo");
-        TownCouncil townCouncil = new TownCouncil();
-        TownCouncil townCouncilSpy = spy(townCouncil);
-        when(townCouncilSpy.carNeedsPermit(vehicle)).thenReturn(false);
-        assertEquals("Yo",townCouncilSpy.generatePermit(owner, vehicle));
-    }
+//    @Test
+//    public void checkAlreadyHasPermitInGeneratePermit() {
+//        Vehicle vehicle =  new PrivateCar(owners, "419");
+//        Owner owner = new Owner("Emma12345", "Emma");
+//        vehicle.setPermitNumber("Yo");
+//        TownCouncil townCouncil = new TownCouncil();
+//        TownCouncil townCouncilSpy = spy(townCouncil);
+//        when(townCouncilSpy.carNeedsPermit(vehicle)).thenReturn(false);
+//        assertEquals("Yo",townCouncilSpy.generatePermit(owner, vehicle));
+//    }
+@Test
+public void checkAlreadyHasPermitInGeneratePermit() {
+    tc.issuePermit(owner,vehicle1);
+    assertEquals("TC1", tc.generatePermit(owner2,vehicle1));
+}
 
     @Test
-    public void getVehicleChargeForLorry() {
+    public void getVehicleChargeForLorry() throws InvalidCapacityException {
         Vehicle vehicle2 =  new Lorry(owners, "419", 170);
         double expectedCharge = 35.0;
         double actualCharge = tc.getCharge(vehicle2);

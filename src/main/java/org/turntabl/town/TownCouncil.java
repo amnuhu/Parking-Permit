@@ -6,16 +6,11 @@ import org.turntabl.vehicle.VehicleType;
 import java.util.*;
 
 public class TownCouncil {
-
     private  int permitNumberCount;
-    private List<Vehicle> vehicles;
-    private List<Owner> registeredUsers;
 
-    private Map<VehicleType, List<Vehicle>> vehiclesWithPermit;
+    private Map<VehicleType, Set<Vehicle>> vehiclesWithPermit;
 
     public TownCouncil() {
-        this.vehicles = new ArrayList<>();
-        this.registeredUsers = new ArrayList<>();
         setVehiclesTypes();
     }
 
@@ -25,17 +20,16 @@ public class TownCouncil {
     }
 
     public String generatePermit(Owner requester, Vehicle vehicle) {
-        if (!carNeedsPermit(vehicle))
-            return vehicle.getPermitNumber();
-
         if (verifyRequester(requester, vehicle)){
+            if (!carNeedsPermit(vehicle))
+                return vehicle.getPermitNumber();
+
             String number = "TC" +(permitNumberCount + 1);
             this.permitNumberCount++;
 
             addPermittedVehicles(vehicle);;
             return number;
         }
-
         return null;
     }
 
@@ -55,12 +49,12 @@ public class TownCouncil {
 
     private   void setVehiclesTypes() {
         this.vehiclesWithPermit = new HashMap<>();
-        vehiclesWithPermit.put(VehicleType.PRIVATE_CAR, new ArrayList<>());
-        vehiclesWithPermit.put(VehicleType.LORRY, new ArrayList<>());
-        vehiclesWithPermit.put(VehicleType.MOTORBIKE, new ArrayList<>());
+        vehiclesWithPermit.put(VehicleType.PRIVATE_CAR, new HashSet<>());
+        vehiclesWithPermit.put(VehicleType.LORRY, new HashSet<>());
+        vehiclesWithPermit.put(VehicleType.MOTORBIKE, new HashSet<>());
     }
 
-    public Map<VehicleType, List<Vehicle>> getVehiclesWithPermit() {
+    public Map<VehicleType, Set<Vehicle>> getVehiclesWithPermit() {
         return vehiclesWithPermit;
     }
 
